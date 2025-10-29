@@ -1,0 +1,2042 @@
+                /* ===========================================================================================
+                VARIABLES GLOBALES Y CONFIGURACIÓN BASE
+                En esta sección se definen las variables principales de color, tipografía, tamañostransiciones que se aplican en todo el proyecto. 
+                El uso de variables facilita la coherencia visual y permite realizar cambiglobales con mayor facilidad.
+                ========================================================================================== */
+
+:root {
+    --color-principal: #00ae8e; /* rgba(0, 174, 142, 1) */
+    --color-texto: #f3f3f3;
+    --color-negro: #0f0f0f;
+    --color-action: #ee1d52;
+
+    --font-base: "Montserrat", sans-serif;
+    --radius: 1.8rem;
+    --transition: 0.3s ease;
+}
+
+/* =============================================================================================================
+    CSS RESET
+Se eliminan márgenes, rellenos y bordes por defecto de los navegadores, y se aplica el box-sizing: border-box para que el ancho de los elementos sea más predecible y fácil de manejar.
+============================================================================================================ */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================================================================
+   TIPOGRAFÍA Y FUENTES PERSONALIZADAS
+   Se cargan distintas variantes de la fuente 'Montserrat' (Regular, SemiBold, Bold y ExtraBold) usando @font-face. Se incluye font-display: swap para mejorar el rendimiento y evitar bloqueos visuales durante la carga de fuentes.
+============================================================================================================ */
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-SemiBold.woff2") format("woff2"),
+         url("../fonts/Montserrat-SemiBold.woff") format("woff");
+    font-weight: 600; /* Asignación del peso */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Bold.woff2") format("woff2"),
+         url("../fonts/Montserrat-Bold.woff") format("woff");
+    font-weight: 700; /* Asignación del peso */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-ExtraBold.woff2") format("woff2"),
+         url("../fonts/Montserrat-ExtraBold.woff") format("woff");
+    font-weight: 800; /* Asignación del peso */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Black.woff2") format("woff2"),
+         url("../fonts/Montserrat-Black.woff") format("woff");
+    font-weight: 900; /* Asignación del peso */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Regular.woff2") format("woff2"),
+         url("../fonts/Montserrat-Regular.woff") format("woff");
+    font-weight: 400; 
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Medium.woff2") format("woff2"),
+         url("../fonts/Montserrat-Medium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}   
+/* ==============================================================================================
+   ESTILOS GENERALES DEL BODY
+   Se aplica la tipografía base definida en las variables. Esto asegura coherencia en toda la web
+==================================================================================================== */
+
+body {
+    font-family: var(--font-base);
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+                                    /* ==================== HEADER ====================
+                                    Define la barra superior fija del sitio, con el logo y menú responsive.
+                                    Usa flexbox para alinear y posición sticky para mantener visible.
+                                    ================================================== */
+
+.header__index {
+    position: sticky;
+    background-color: var(--color-principal);
+    top: 0;
+    height: 6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+/* =======================================================================================================
+   LOGOTIPO DEL HEADER
+   Se ajusta la altura y el margen lateral del logotipo. El uso de flexbox facilita su alineación vertical.
+============================================================================================================= */
+.header__logo {
+    height: 4rem;
+    margin: 0 5rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+/* ============================================================================================================
+   BOTONES DE NAVEGACIÓN (MENÚ HAMBURGUESA)
+   Estilos compartidos para los botones de abrir y cerrar el menú en dispositivos móviles. Incluye animaciones de opacidad y rotación al mostrar/ocultar.
+=========================================================================================================== */
+.nav__button {
+    margin: 0 5rem;
+    padding: 0.5rem;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    transition: opacity var(--transition), transform 0.5s ease;
+}
+
+/* ============================================================================================================
+   BOTÓN "ABRIR MENÚ"
+   Visible por defecto. Cambia de estado mediante clases dinámicas controladas con JavaScript.
+=========================================================================================================== */
+.nav__button--abrir {
+    display: block;
+    transform: rotate(0deg);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.nav__button--abrir img {
+    height: 1.8rem;
+}
+
+/* ==========================================================================================================
+   ESTADO OCULTO DEL BOTÓN "ABRIR"
+   Se usa cuando el menú está abierto para evitar clics duplicados y mantener coherencia visual.
+=========================================================================================================== */
+.nav__button--abrir.oculto {
+    opacity: 0;
+    transform: rotate(90deg);
+    pointer-events: none;
+}
+
+/* ==========================================================================================================
+   BOTÓN "CERRAR MENÚ"
+   Inicialmente oculto. Se muestra al activar el menú mediante JavaScript.
+=========================================================================================================== */
+.nav__button--cerrar {
+    display: none;
+    transform: rotate(-90deg);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav__button--cerrar img {
+    height: 1.8rem;
+}
+
+/* ==========================================================================================================
+   ESTADO VISIBLE DEL BOTÓN "CERRAR"
+   Activo mientras el menú lateral está desplegado.
+=========================================================================================================== */
+.nav__button--cerrar.visible {
+    display: block;
+    opacity: 1;
+    transform: rotate(0deg);
+    pointer-events: all;
+}
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL DE LA NAVEGACIÓN
+========================================================= */
+.header__nav {
+    position: relative;
+}
+
+/* ==========================================================================================================
+   MENÚ DESPLEGABLE
+   El menú se encuentra oculto por defecto y se muestra al añadir la clase .visible mediante JavaScript. 
+   Utiliza una imagen de fondo decorativa y estructura en columna para los enlaces.
+=========================================================================================================== */
+.nav__menu {
+    background: var(--color-principal);
+    background-image: url("../imagenes/rockMusic.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30%;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    top: 5rem;
+    right: 0;
+    width: 100vw;
+    height: calc(100vh - 2.6rem);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+@supports (background-image: url("test.webp")) {
+    .hero__container {
+        background-image: url("../imagenes/rockMusic.webp");
+    }
+}
+/* =========================================================
+   ESTADO VISIBLE DEL MENÚ
+   Clase activada por JavaScript para mostrar el menú 
+========================================================= */
+.nav__menu.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav__div {
+    margin: 1rem;
+    display: flex;
+    width: 100%;
+}
+
+.nav__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.nav__item {
+    margin: 0.5rem;
+}
+
+.nav__link {
+    text-decoration: none;
+    padding: 0 2rem;
+    color: var(--color-negro);
+    font-size: 4rem;
+    font-weight: bolder;
+    display: block;
+    line-height: 0.6;
+}
+
+.nav__link:hover {
+    transform: scale(1.1);
+    color: var(--color-action);
+}
+
+                                        /* ==================== INDEX ==================== */
+/* ==========================================================================================================
+   SECCIÓN HERO (PORTADA PRINCIPAL)
+   Ocupa toda la altura visible del navegador. Contiene el título principal del festival y un fondo visual.
+============================================================================================================ */
+
+.section__hero {
+    height: calc(100vh - 12rem);
+    width: 100%;
+    background-color: var(--color-negro);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero__background {
+    height: 90%;
+    width: 100%;
+    background-color: var(--color-texto);
+    position: relative;
+    z-index: 80;
+}
+
+
+/* ==========================================================================================================
+   TÍTULO PRINCIPAL DEL HERO
+   Se posiciona de manera absoluta para superponerse al fondo y se le aplica una animación tipo "glitch" 
+   para reforzar la estética.
+============================================================================== */
+.hero__title {
+    position: absolute;
+    font-size: clamp(1rem, 4vw, 2.5rem);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 2rem;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 800;
+    animation: glitch 3s infinite;
+}
+
+/* ==========================================================================================================
+   CONTENEDOR DE IMAGEN DEL HERO
+   Muestra la imagen central del festival. Se usa contain para mantener proporciones y optimizar el rendimiento 
+   con content-visibility.
+========================================================= */
+.hero__container {
+    height: calc(100vh - 12rem);
+    width: 100%;
+    content-visibility: auto;
+    background-image: url("../imagenes/img-hero-home.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+@supports (background-image: url("test.webp")) {
+    .hero__container {
+        background-image: url("../imagenes/img-hero-home.webp");
+    }
+}
+
+/* ==========================================================================================================
+   SECCIÓN INFO (ENTRADAS Y ABONOS)
+   Contiene tarjetas interactivas con información sobre la compra de entradas. Se utilizan efectos visuales 
+   y animaciones con Intersection Observer en JS.
+========================================================= */
+.section__info {
+    width: 100%;
+    background-color: var(--color-principal);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+}
+
+.info__container {
+    background-color: transparent;
+    padding: 2rem 2rem;
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+    /* perspective: 800px; */
+}
+
+/* ==========================================================================================================
+   TARJETAS (ENTRADAS Y ABONOS)
+   Elementos interactivos que reaccionan al desplazamiento al hover. Incorporan efectos de profundidad y brillo.
+========================================================= */
+.card {
+    background: linear-gradient(135deg,#1e1e1e 10%, var(--color-negro) 75%);
+    display: flex;
+    height: 24rem;
+    max-width: 31.25rem;
+    padding: 0.5rem 12%;
+    border: 3px solid black;
+    border-radius: 30px;
+    color: var(--color-texto);
+    align-items: center;
+    position: relative;
+
+    /* opacity: 0; */
+    /* transform: scale(0.9); */
+    /* transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; */
+    /* transform-style: preserve-3d; */
+   
+}
+
+
+/* Estado visible controlado por IntersectionObserver */
+.card.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Efecto hover con transformación 3D */
+
+.card:hover {
+    border: 5px solid #ee1d52;
+    transform: perspective(800px) rotateX(5deg) rotateY(10deg) scale(1.1);
+    box-shadow: 0 0 10px var(--color-action), 0 0 20px var(--color-action);
+}
+
+.card__tittle {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    font-weight: 700;
+    color: var(--color-texto);
+}
+
+.card__content {
+    max-width: 10rem;
+    padding: 0.5rem 3rem 0.5rem 0.5rem;
+    color: var(--color-principal);
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    text-shadow: 0 2px 2px rgba(0, 174, 142, 0.4);
+    font-weight: 600;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    text-align: right;
+}
+
+.card__button {
+    position: absolute;
+    bottom: 4rem;
+    left: 40%;
+    background: linear-gradient(135deg, var(--color-action) 0%, #ff1744 100%);
+    color: var(--color-texto);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    border: 3px solid var(--color-action);
+    border-radius: 50px;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+    margin: 0.5rem;
+}
+
+.card:hover .card__button {
+    transform: perspective(500px) translateY(-10px) rotateX(-5deg) translateZ(20px);
+    background: linear-gradient(135deg, #8b0a3d 0%, #5c0726 100%);
+    border: 3px solid #5c0726;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================================================
+   SECCIÓN CARRUSEL ARTISTAS
+   Presenta nombres e imágenes de los grupos participantes. El desplazamiento infinito se gestiona desde JavaScript.
+========================================================= */
+.carrusel__container {
+    overflow: hidden;
+    background-color: #cccccc;
+    padding: 1.5rem;
+}
+
+
+/* Carruseles superior e inferior en direcciones opuestas */
+.carrusel__groups,
+.carrusel__groups--reverse {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    scroll-behavior: auto;
+    white-space: nowrap;
+}
+
+.carrusel__item {
+    flex-shrink: 0;
+    padding: 0 2em;
+}
+
+/* =========================================================
+   GALERÍA DE IMÁGENES DE ARTISTAS
+   Disposición tipo grid para mostrar imágenes destacadas.
+========================================================= */
+.imagenes__container {
+    background-color: var(--color-negro);
+    padding: 3rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
+    justify-items: center;
+    align-items: center;
+}
+
+.imagenes__wrapper {
+    display: flex;
+    width: 15.5rem;
+    height: 20rem;
+}
+
+.imagenes__img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 2px solid var(--color-principal);
+}
+
+/* ==========================================================================================================
+   SECCIÓN STAGE
+   Muestra imágenes del escenario del festival. Se usa posicionamiento relativo para superponer imágenes.
+========================================================= */
+.section__stage {
+    background-color: var(--color-negro);
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Imagen principal del escenario */
+.stage {
+    width: 100%;
+}
+
+/* Segunda imagen (posición superpuesta) */
+.stage__dos {
+    width: 70%;
+}
+
+.stage__img {
+    height: auto;
+    width: 100%;
+    object-fit: contain;
+}
+
+.stage__img--absolut {
+    position: absolute;
+    width: 70%;
+    bottom: 0;
+    border-radius: 20px;
+    border: 3px solid var(--color-negro);
+}
+
+/* ==========================================================================================================
+   FOOTER 
+   Sección inferior de la página que contiene el logotipo, enlaces de navegación secundarios y redes sociales. 
+   Utiliza flexbox para distribuir los bloques y mantener un diseño adaptable a diferentes resoluciones.
+========================================================= */
+
+.footer {
+    min-height: 20rem;
+    padding: 2rem 1.5rem;
+    background-color: var(--color-negro);
+    color: var(--color-texto);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+/* ==========================================================================================================
+   ESTRUCTURA DE COLUMNAS DEL FOOTER
+   Se divide en tres áreas principales: izquierda (logo), centro (menú) y derecha (redes sociales o información 
+   adicional). Cada una tiene un ancho flexible.
+========================================================= */
+.footer__left,
+.footer__center,
+.footer__right {
+    flex: 1 1 0;
+}
+
+.footer__logo {
+    display: block;
+}
+
+.footer__img {
+    width: 18rem;
+    height: auto;
+    display: block;
+}
+
+.footer__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer__item {
+    margin-bottom: 0.5rem;
+}
+
+.footer__link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--color-texto);
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer__link:hover {
+    color: var(--color-principal);
+    transform: scale(1.1);
+}
+
+.footer__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* ==========================================================================================================
+   ICONOS SOCIALES
+   Se aplica inversión de color para adaptarlos al fondo oscuro. Incluyen un ligero efecto de desplazamiento al 
+   pasar el cursor.
+========================================================= */
+.footer__icon {
+    height: 100%;
+    width: 2rem;
+    object-fit: contain;
+}
+
+.footer__slogan {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.footer__center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.footer__social {
+    margin: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.footer__icon {
+    filter: invert(1);
+    transition: transform var(--transition);
+}
+
+.footer__icon:hover {
+    transform: translateY(-3px);
+}
+/* ==========================================================================================================
+   LÍNEA INFERIOR DEL FOOTER
+   Contiene los derechos reservados. Se separa visualmente mediante una línea sutil.
+========================================================= */
+.footer__bottom {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #9e9c9c;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+}
+
+                        /* =========================================================
+                        ARTISTAS
+                        Muestra el listado de artistas y bandas participa en el festival.estructura mediante gridn para garantizar una distribución adaptabledistintos tamaños de pantalla.
+                        ========================================================= */
+
+.artist__full {
+    background-color: var(--color-negro);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.artist__content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* ==========================================================================================================
+   TÍTULO PRINCIPAL DE ARTISTAS
+   Usa el color verde principal y animaciones con steps() para generar un efecto de texto retro al mostrarse. 
+   Al pasar el cursor, se invierte la animación.
+========================================================= */
+.artist__tittle {
+    color: var(--color-principal);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    padding: 2rem ;
+    letter-spacing: 0.05em;
+    animation: glow 2s  infinite alternate;
+   
+}
+
+
+.artist__secondtittle {
+    color: var(--color-texto);
+    color: var(--color-texto);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-weight: 400;
+}
+/* ==========================================================================================================
+   GRID DE ARTISTAS
+   Contenedor principal que muestra las tarjetas de cada artista. El uso de repeat(auto-fit) permite una 
+   distribución dinámica según el tamaño de pantalla.
+========================================================= */
+.artist__wrapper {
+    padding: 3rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+}
+
+.artist__box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    aspect-ratio: 1;
+    transition: transform var(--transition);
+}
+
+.artist__box:hover {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================================================
+   IMÁGENES DE ARTISTAS
+   Se recortan en formato cuadrado y se aplican bordes redondeados con el color verde principal como marco.
+========================================================= */
+.artist__picture {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 3px solid var(--color-principal);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.artist__img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform var(--transition);
+}
+
+.artist__img:hover {
+    transform: scale(1.1);
+}
+
+.artist__img:active {
+    transform: scale(1.1);
+}
+
+.lightbox {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.4);
+    backdrop-filter: blur(2rem);
+    position: relative;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 2rem 2rem 2rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: all .5s ease;
+    z-index: 99;
+}
+.lightbox.isActive{
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox .cerrar {
+    position: absolute;
+    bottom: 5rem;
+    right: 10%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: all .3s ease;
+    background: var(--color-principal);
+    border: 2px solid var(--color-principal);
+    border-radius: 50%;
+    padding: 0.5rem; 
+}
+.lightbox .cerrar:hover {
+    transform: scale(.95);
+    background: rgba(0, 174, 142, 0.3); 
+}
+
+.lightbox .cerrar:active {
+    transform: scale(1.1);
+}
+
+.lightbox .cerrar img {
+    width: 100%;
+    height: 100%;
+    filter: invert(1);
+}
+
+.lightbox .svg {
+    background: none;
+    appearance: none;
+    fill: white;
+}
+.lightbox .grande {
+    max-width: 90vw; 
+    max-height: 75vh; 
+    width: auto; 
+    height: auto; 
+    object-fit: contain;
+    box-shadow: 0 0 3rem 0 rgba(0, 255, 100, 0.3); 
+    border: 3px solid var(--color-principal); 
+    border-radius: var(--radius);
+
+}
+
+/* ==========================================================================================================
+   NOMBRE DEL ARTISTA
+   Texto centrado debajo de cada imagen. Usa color blanco y tamaño ajustable mediante clamp() para mejorar la 
+   legibilidad.
+========================================================= */
+.artist__name {
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    padding: 1rem;
+    letter-spacing: 0.03em;
+}
+
+                    /* =========================================================
+                    SECCIÓN  (PREGUNTAS FRECUENTES)
+                    Ofrece información adicional al usuario de forma interactiva. Combina diseño moderno con efectos visuales animados y expansión controlada mediante JS.
+                    ========================================================= */
+
+.faq {
+    background: var(--color-negro);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    position: relative;
+}
+
+.faq__contain {
+    width: 70%;
+    max-width: 100vw;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================================================================================
+   TÍTULO PRINCIPAL DEL FAQ
+   Utiliza el color principal con sombras brillantes para crear un efecto neón animado. La animación "glow genera un pulso visual.
+========================================================= */
+.faq__tittle {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--color-principal);
+    margin: 2rem 0 3rem;
+    text-align: center;
+    padding: 2rem;
+    letter-spacing: 3px;
+    position: relative;
+    animation: glow 2s infinite alternate;
+}
+
+/* ==========================================================================================================
+   CONTENEDOR DE PREGUNTAS
+   Dispone las preguntas y respuestas en columna con un espaciado uniforme entre los elementos.
+========================================================= */
+.faq__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ==========================================================================================================
+   ELEMENTO INDIVIDUAL DE PREGUNTA
+   Cada pregunta está dentro de un contenedor con fondo degradado oscuro y borde decorativo. La propiedad 
+   overflow:hidden evita desbordes visuales al expandirse.
+========================================================= */
+.faq__item {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    border-radius: 20px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid rgba(0, 255, 159, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* =========================================================
+   NÚMERO DECORATIVO DE LA PREGUNTA
+   Se añade mediante el pseudo-elemento ::before.  
+========================================================= */
+.faq__item::before {
+    content: attr(data-number);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 900;
+    color: rgba(238, 29, 82, 0.5);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+/* Cambia de tono al pasar el ratón */
+.faq__item:hover::before {
+    color: rgba(238, 29, 82, 0.2);
+    right: 30px;
+}
+
+/* Efecto hover sobre el bloque completo */
+.faq__item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px var(--color-principal), 0 0 20px var(--color-principal);
+    transform: translateY(-5px);
+}
+
+/* ==========================================================================================================
+   PREGUNTA PRINCIPAL
+   Es el botón que el usuario pulsa para mostrar/ocultar la respuesta. Usa color de acción y sombra interior.
+========================================================= */
+.faq__question {
+    background-color: var(--color-action);
+    border-radius: 20px 20px 0 0;
+    color: var(--color-negro);
+    padding: 1rem 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.faq__question:hover {
+    background-color: var(--color-action);
+}
+
+/* ==========================================================================================================
+   RESPUESTA OCULTA
+   Por defecto se mantiene plegada mediante max-height: 0.
+   El JavaScript añade la clase `.active` al contenedor para expandir el contenido con una animación suave.
+========================================================= */
+.faq__answer {
+    background-color: transparent;
+    border-radius: var(--radius);
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: #00725e;
+    font-weight: 700;
+    text-align: justify;
+    margin: 0.4rem clamp(1rem, 5vw, 4rem) 0.4rem 0.4rem;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+}
+
+/* Estado activo: muestra la respuesta expandida */
+.faq__item.active .faq__answer {
+    max-height: 30rem;
+    padding: 2rem;
+}
+
+/* Animacion al interactuar con las preguntas  */
+.faq__item:hover .faq__question {
+    animation: glitch-text 0.3s ease-in-out;
+}
+
+                            /* =========================================================
+                            SECCIÓN FORMULARIO DE REGISTRO / CONTACTO
+                            Diseñada para que el usuario pueda enviar información al festival. Presenta un fondo con efecto "glassmorphism" y elementos accesibles mediante etiquetas bien estructuradas.
+                            ========================================================= */
+
+.form__section {
+    min-height: 100vh;
+    background-image: url("../imagenes/form2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+}
+/* =========================================================
+   CAPA DE SUPERPOSICIÓN DEL FONDO
+   Crea un degradado translúcido sobre la imagen de fondo para aumentar el contraste y mejorar la legibilidad del contenido.
+========================================================= */
+.form__section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(0, 255, 127, 0.1) 0%,
+            rgba(10, 10, 10, 0.9) 50%,
+            rgba(255, 23, 68, 0.1) 100%);
+}
+/* =========================================================
+   CONTENEDOR PRINCIPAL DEL FORMULARIO
+   Centra el formulario dentro de la sección y aplica un índice de apilamiento superior para que quede sobre la capa translúcida.
+========================================================= */
+.form__wrapper {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* =========================================================
+   CABECERA DEL FORMULARIO
+   Incluye el título principal y el subtítulo descriptivo.Se usa animación "retro" para generar un efecto de escritura progresiva.
+========================================================= */
+
+.form__header {
+    text-align: center;
+}
+
+/* Título principal del formulario */
+.form__header--title {
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    padding: 1rem;
+    color: var(--color-principal);
+    overflow: hidden;
+    width: 0;
+    white-space: nowrap;
+    animation: retro 3s steps(19) forwards;
+}
+
+
+/* Efecto inverso al pasar el ratón */
+.form__header--title:hover {
+    animation: retro-reverse 1.5s steps(19) forwards;
+}
+
+/* Subtítulo del formulario */
+.form__header--subtitle {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--color-texto);
+    font-weight: 300;
+    padding: 1rem;
+}
+
+
+/* =========================================================
+   CUERPO DEL FORMULARIO
+   Aplica el efecto "glassmorphism" mediante transparencia, desenfoque de fondo y bordes suaves. Mejora la estética y mantiene una lectura clara.
+========================================================= */
+
+.form__container {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 3px solid rgba(0, 174, 142, 0.2);
+    position: relative;
+}
+
+
+/* =========================================================
+   GRUPOS DE CAMPOS DEL FORMULARIO
+   Organiza cada campo con su etiqueta asociada, manteniendo consistencia y legibilidad.
+========================================================= */
+
+.form__group {
+    margin: 1.5rem;
+}
+
+/* Etiquetas descriptivas de cada campo */
+.form__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-weight: 400;
+    color: var(--color-texto);
+    margin: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   INPUTS, TEXTAREA Y SELECT
+   Mantienen coherencia visual, borde translúcido y transiciones suaves al enfocar. El color y la tipografía refuerzan la identidad visual.
+========================================================= */
+.form__input,
+.form__textarea,
+.form__select {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 3px solid rgba(0, 174, 142, 0.2);
+    border-radius: 10px;
+    color: var(--color-texto);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+
+/* Estilo activo al enfocar un campo */
+.form__input:focus,
+.form__textarea:focus,
+.form__select:focus {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 255, 127, 0.2);
+    transform: translateY(-2px);
+}
+
+
+
+.form__textarea {
+    min-height: 7.5rem;
+    max-height: 7.5rem;
+    resize: vertical;
+    font-family: inherit;
+}
+/* =========================================================
+   CONTROLES DE RADIO Y CHECKBOX
+   Personalizados para mantener coherencia estética con el resto del diseño. Incluyen animación al activarse.
+========================================================= */
+.form__radio--group,
+.form__checkbox--group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--color-texto);
+}
+/* Estilos base */
+input[type="radio"],
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-principal);
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+input[type="checkbox"] {
+    border-radius: 5px;
+}
+
+/* Estado marcado */
+input[type="radio"]:checked,
+input[type="checkbox"]:checked {
+    background-color: var(--color-principal);
+    box-shadow: 0 0 15px var(--color-principal);
+}
+
+/* Icono de marca al seleccionar */
+input[type="radio"]:checked::before,
+input[type="checkbox"]:checked::before {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-negro);
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+/* =========================================================
+   CONTADOR DE CARACTERES
+   Muestra visualmente la cantidad de texto introducido por el usuario, fomentando la accesibilidad y el control.
+========================================================= */
+.form__counter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-principal);
+}
+
+.form__counter-current {
+    color: var(--color-principal);
+    font-weight: 600;
+}
+
+/* =========================================================
+   BOTÓN SUBMIT
+   Destacado mediante un degradado del color principal.Incluye sombra y elevación en hover para aumentar la percepción de interacción.
+========================================================= */
+.form__submit {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, var(--color-principal), #00b870);
+    border: none;
+    border-radius: 10px;
+    color: var(--color-negro);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.form__submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 174, 142, 0.2);
+}
+
+/* =========================================================
+   SECCIÓN HISTORIA / CONTACTO
+   Página dedicada a presentar la historia del festival y ofrecer información de ubicación o contacto. Combina elementos narrativos visuales e interactivos.
+========================================================= */
+
+.history__full {
+    background: linear-gradient(160deg, #d2d3d1 0%, #0f1110 100%);
+}
+
+
+.hero__video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+.hero__video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================================================
+   HERO CONTACTO
+   Bloque superior con imagen principal, animaciones de texto y un área interactiva que cambia de color al pasar el cursor.
+========================================================= */
+.hero__contacto {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+/* =========================================================
+   CONTENIDO DEL HERO CONTACTO
+   Texto central animado con efecto glitch coherente con la estética visual del festival.
+========================================================= */
+.contacto__content {
+    text-align: center;
+    z-index: 2;
+    animation: glitch 1s ease-in;
+}
+
+.contacto__content h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: var(--color-principal);
+    text-shadow: 0 0 10px var(--color-principal), 0 0 20px var(--color-principal),
+        0 0 30px var(--color-principal);
+    animation: glitch 2s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   SECCIÓN HISTORIA
+   Bloque narrativo donde se explica el origen del festival.Usa una tipografía destacada, sombras y un pseudo-elemento con texto decorativo para reforzar la identidad visual.
+========================================================= */
+.history {
+    padding: 6rem 3rem;
+    position: relative;
+}
+
+/* Texto decorativo de fondo con la palabra HISTORY */
+.history::before {
+    content: "HISTORY";
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-weight: 900;
+    color: rgba(40, 46, 45, 0.3);
+    z-index: 0;
+}
+
+.history__content {
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Título de sección */
+.history h2 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--color-principal);
+    text-align: center;
+    letter-spacing: 6px;
+    margin: 3rem 0;
+}
+
+/* =========================================================
+   GRID DE HISTORIA
+   Distribuye los bloques de texto históricos en un layout adaptable usando Grid.
+========================================================= */
+.history__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    margin: 3rem 1rem 3rem 1rem;
+    align-items: start;
+}
+
+/* =========================================================
+   BLOQUES DE TEXTO DE HISTORIA
+   Cada bloque representa un año o etapa relevante. Se usa un borde lateral y fondo semitransparente para resaltar el contenido.
+========================================================= */
+.history__text {
+    padding: 2.5rem;
+    background: rgba(0, 217, 163, 0.08);
+    border-left: 4px solid #00d9a3;
+    position: relative;
+    border-radius: var(--radius);
+}
+/* Año destacado  */
+.history__year {
+    display: inline-block;
+    background: #00d9a3;
+    color: var(--color-negro);
+    font-weight: 600;
+    padding: 0.5rem 7%;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    letter-spacing: 2px;
+    margin: 1.2rem;
+    transform: skew(-5deg);
+    box-shadow: 0 4px 15px rgba(0, 217, 163, 0.4);
+}
+
+/* Título de cada bloque histórico */
+.history__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--color-principal);
+    margin: 1.2rem;
+}
+
+/* Párrafo de contenido */
+.history__content {
+    line-height: 1.8;
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+}
+
+/* =========================================================
+   SECCIÓN IMAGEN
+   Contenedor que muestra una imagen representativo del festival
+========================================================= */
+.image__container {
+    position: relative;
+    padding: 3.125rem;
+    /* background: #2a2a2a; */
+    border: 2px solid #00d9a3;
+    box-shadow: 0 0 40px rgba(0, 217, 163, 0.2);
+    border-radius: var(--radius);
+}
+
+.image__wrapper {
+    position: relative;
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.image__wrapper picture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.image__wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+/* Efecto hover en las imágenes */
+.image__wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* =========================================================
+   SECCIÓN CONTACTO
+   Presenta la localización del evento junto con información de contacto. Se integra un mapa interactivo con estilo oscuro.
+========================================================= */
+.location{
+    background: linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+.location::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('../imagenes/escenario.jpg') center/cover no-repeat;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* Contenedor principal de la ubicación */
+.location__content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 0;
+    
+}
+
+/* Título principal */
+.location__title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--color-principal);
+    text-shadow: 0 3px 4px rgba(0, 174, 142, 1);
+    margin: 3rem;
+    text-align: center;
+    letter-spacing: 0.3rem;
+}
+
+
+/* =========================================================
+   GRID DE UBICACIÓN
+   Combina el mapa con información de contacto mediante una estructura flexible que se adapta a diferentes resoluciones de pantalla.
+========================================================= */
+
+.location__grid {
+    display: grid;
+    width: 80%;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor del mapa */
+.map__container {
+    position: relative;
+    height: 28rem;
+    border: 3px solid var(--color-principal);
+    box-shadow: 0 0 50px rgba(0, 217, 163, 0.3);
+    overflow: hidden;
+    background: #2a2a2a;
+    border-radius: var(--radius);
+}
+
+/* Estilos del iframe del mapa */
+.map__container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(80%);
+}
+
+.location__info {
+    padding: 1rem;
+    justify-content: center;
+    text-align: center;
+    padding: 2.5rem;
+    background: rgba(0, 217, 163, 0.08);
+    border-right: 4px solid #00d9a3;
+    position: relative;
+    border-radius: var(--radius);
+}
+
+.info__item {
+    color: var(--color-texto);
+    margin: 1rem;
+}
+
+.info__title {
+    text-align: center;
+    display: block;
+    margin: 0 auto 2rem;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--color-principal);
+    letter-spacing: 2px;
+}
+
+.info__content {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+}
+
+.info__item a {
+    color: var(--color-texto);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.info__item a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 217, 163, 0.8);
+}
+
+/* ==================== ANIMACIONES 
+Definen los efectos visuales reutilizados en varias secciones del sitio, como glitch, deslizamientos, apariciones y escalado. 
+==================== */
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px var(--color-principal),
+            0 0 20px var(--color-principal);
+    }
+
+    to {
+        text-shadow: 0 0 20px var(--color-principal),
+            0 0 30px var(--color-principal), 0 0 40px var(--color-principal);
+    }
+}
+
+/* =========================================================
+   EFECTO GLITCH PRINCIPAL
+   Simula una distorsión digital aleatoria mediante transformaciones y cambios de brillo. 
+   Se aplica en títulos y logotipos.
+========================================================= */
+@keyframes glitch {
+
+    0%,
+    30%,
+    60% {
+        transform: none;
+    }
+
+    90% {
+        transform: translate(2px, -2px) skew(1deg);
+        filter: contrast(150%) brightness(120%);
+    }
+
+    92% {
+        transform: translate(-3px, 3px) skew(-1deg);
+        filter: contrast(200%) brightness(110%);
+    }
+
+    94% {
+        transform: translate(2px, -2px) skew(1deg);
+        filter: contrast(150%) brightness(120%);
+    }
+
+    96% {
+        transform: translate(-3px, 3px) skew(-1deg);
+        filter: contrast(200%) brightness(110%);
+    }
+
+    98% {
+        transform: translate(2px, -2px) skew(1deg);
+        filter: contrast(150%) brightness(120%);
+    }
+
+    100% {
+        transform: none;
+        filter: none;
+    }
+}
+
+/* =========================================================
+   EFECTO DE GLITCH EN TEXTO
+   Movimiento leve de letras para dar sensación de error digital o vibración visual.
+========================================================= */
+@keyframes glitch-text {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* =========================================================
+   EFECTO RETRO (TEXTO MECANOGRAFIADO)
+   Expande el ancho del texto simulando un efecto de escritura progresiva.
+========================================================= */
+@keyframes retro {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes retro-reverse {
+    to {
+        width: 0;
+    }
+}
+
+/* =========================================================
+   EFECTOS DE APARICIÓN Y DESPLAZAMIENTO
+   Se aplican a elementos visibles al hacer scroll, mejorando la experiencia de navegación.
+========================================================= */
+@keyframes glitchFade {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================================================
+   CLASES DE ANIMACIÓN POR SCROLL
+   Permiten aplicar efectos a medida que los elementos entran en el área visible del usuario.
+========================================================= */
+
+.scroll-animate {
+    opacity: 0;
+}
+
+.scroll-animate.animate {
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Tipos de animación específicos */
+.slide-left.animate {
+    animation-name: slideInLeft;
+}
+
+.slide-right.animate {
+    animation-name: slideInRight;
+}
+
+.fade-up.animate {
+    animation-name: fadeInUp;
+}
+
+.scale-in.animate {
+    animation-name: scaleIn;
+}
+
+
+/* =========================================================
+   MEDIA QUERIES
+   Ajustan el diseño según el tamaño de pantalla, garantizando la adaptabilidad visual y funcional del sitio.
+========================================================= */
+/* =========================================================
+   MÓVILES PEQUEÑOS (HASTA 480px)
+   Simplifica el diseño y aumenta la legibilidad.
+   Se reducen tamaños, márgenes y se reorganizan contenedores
+========================================================= */
+@media screen and (max-width: 480px) {
+    /* header  */
+    .header__index {
+        height: 5rem;
+    }
+
+    .header__logo {
+        height: 3rem;
+        margin: 0 1rem;
+    }
+
+    .nav__button {
+        margin: 0 1rem;
+    }
+
+    .nav__link {
+        font-size: 2rem;
+    }
+
+    /* cards  */
+    .info__container{
+        width: 100%;
+    }
+    .card {
+        height: 20rem;
+        padding: 0.5rem 13%;
+    }
+
+    .card__button {
+        bottom: 1.5rem;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.9rem;
+    }
+
+    /* faq  */
+    .faq__item::before {
+        font-size: 3rem;
+        right: 5px;
+    }
+
+    /* form  */
+    .form__wrapper {
+    width: 100%;
+    padding: 2rem 1rem; 
+    }
+    .form__container {
+        margin: 0;
+        padding: 0;
+    }
+    .form__input,.form__textarea,.form__select {
+    width: 100%;
+    padding: 1rem;
+    }
+    .faq {
+        padding: 1rem ;
+    }
+    .faq__contain{
+        width: 90%;
+        max-width: 100vw;
+    }
+
+    /* history  */
+    .history__grid {
+        grid-template-columns: 1fr;
+        margin: 0 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .history__text {
+    padding: 0.5rem;
+    }
+    .image__container {
+        padding: 0;
+    }
+    /* contacto  */
+    .info__title {
+        margin: auto;
+        width: 90%;
+    }
+    .location__info{
+        padding: 1.5rem;
+    }
+
+    /* footer  */
+    .footer {
+        padding: 2rem 1rem;
+    }
+
+    .footer__center,
+    .footer__left,
+    .footer__right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .footer__social {
+        gap: 0.8rem;
+    }
+}
+
+/* =========================================================
+   MÓVILES GRANDES (480px - 767px)
+   Ajusta elementos para smartphones grandes, 
+   como los modelos Plus, Galaxy S,etc. 
+========================================================= */
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+
+    /* Header */
+    .header__index {
+        height: 5.5rem;
+    }
+
+    .header__logo {
+        height: 3.5rem;
+        margin: 0 2rem;
+    }
+
+    .nav__button {
+        margin: 0 2rem;
+    }
+
+    .nav__link {
+        font-size: 2.5rem;
+    }
+
+    /* Cards */
+    .card {
+        height: 22rem;
+        padding: 1rem 10%;
+    }
+
+    .card__button {
+        bottom: 2rem;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+    }
+
+    /* Imágenes */
+    .imagenes__container {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Artistas */
+    .artist__wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+
+    /* FAQ */
+    .faq__tittle {
+        font-size: clamp(2rem, 6vw, 3rem);
+    }
+
+    .faq__item::before {
+        font-size: 4rem;
+        right: 10px;
+    }
+
+    /* Formulario */
+    .form__container {
+        padding: 2rem 1.5rem;
+    }
+
+    .form__submit {
+        font-size: 1rem;
+    }
+
+    /* Conocenos  */
+     .history__grid {
+        gap: 1rem;
+        margin: 0;
+        padding:0;
+    }
+
+    .image__container {
+        padding: 0;
+    }
+
+    /* contacto  */
+  
+    /* Footer */
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .footer__logo img {
+        width: 14rem;
+    }
+
+    .footer__social {
+        gap: 1rem;
+    }
+}
+/* =========================================================
+   TABLETS (768px - 1024px)
+   Ajusta márgenes, espaciados y tamaños de contenedores para pantallas medianas.
+========================================================= */
+@media screen and (min-width: 768px) {
+
+    .header__logo {
+        margin: 0 3rem;
+    }
+
+    .nav__button {
+        margin: 0 3rem;
+    }
+
+    .info__container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        padding: 3rem 2rem;
+    }
+
+    .imagenes__container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 3rem 2rem;
+    }
+
+    .artist__wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+
+    .form__wrapper {
+        max-width: 70%;
+    }
+
+    .form__container {
+        padding: 3rem 2rem;
+    }
+
+    .history__grid {
+        align-items: center;
+        justify-content: center;
+    }
+    .image__container {
+        padding: 0;
+    }
+    .footer {
+        flex-direction: row; 
+        text-align: left;
+        padding: 3rem 2rem;
+    }
+}
+
+/* =========================================================
+   DESKTOP (1024px EN ADELANTE)
+   Amplía los márgenes y ajusta los contenedores para aprovechar el espacio disponible en pantallas grandes.
+========================================================= */
+@media screen and (min-width: 1024px) {
+    .header__logo {
+        margin: 0 5rem;
+    }
+
+    .nav__button {
+        margin: 0 5rem;
+    }
+
+    .info__container {
+        width: 80%;
+    }
+
+    .artist__wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .form__wrapper {
+        max-width: 50%;
+    }
+
+    .faq__contain {
+        width: 70%;
+    }
+
+    .stage__dos {
+        width: 70%;
+    }
+
+    .stage__img--absolut {
+        width: 70%;
+    }
+}
+
+
+
+
+
